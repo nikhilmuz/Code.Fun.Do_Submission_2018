@@ -7,9 +7,4 @@
     android:orientation="vertical"
     tools:context="ga.nikhilkumar.smartlib.Dashboard">
 
-    <Button
-        android:id="@+id/toast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 </LinearLayout>
