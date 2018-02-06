@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +63,7 @@ public class Dashboard extends AppCompatActivity
         if (id == R.id.action_logout) {
             Intent intent=new Intent(Dashboard.this,LoginActivity.class);
             startActivity(intent);
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             finish();
         }
 
