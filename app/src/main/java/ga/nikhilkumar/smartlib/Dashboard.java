@@ -86,7 +86,7 @@ public class Dashboard extends AppCompatActivity
             sendIntent.putExtra(Intent.EXTRA_TEXT, "Download SmartLib app now and manage library digitally while being cool.");
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_abt) {
             Intent intent=new Intent(Dashboard.this,About.class);
             startActivity(intent);
         }
