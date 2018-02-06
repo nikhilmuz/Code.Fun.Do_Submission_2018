@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Code.Fun.Do_Submission_2018.iml" filepath="$PROJECT_DIR$/Code.Fun.Do_Submission_2018.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Code.Fun.Do_Submission_2018-app.iml" filepath="$PROJECT_DIR$/app/Code.Fun.Do_Submission_2018-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Desktop-Code.Fun.Do_Submission_2018.iml" filepath="$PROJECT_DIR$/Desktop-Code.Fun.Do_Submission_2018.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
