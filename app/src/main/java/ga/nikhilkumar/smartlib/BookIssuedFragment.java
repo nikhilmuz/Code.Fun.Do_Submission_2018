@@ -26,23 +26,4 @@ public class BookIssuedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_book_issued, container, false);
     }
 
-    /**
-     * A simple {@link Fragment} subclass.
-     */
-    public static class FineDueFragment extends Fragment {
-
-
-        public FineDueFragment() {
-            // Required empty public constructor
-        }
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_fine_due, container, false);
-        }
-
-    }
 }

@@ -1,5 +1,7 @@
 package ga.nikhilkumar.smartlib;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -76,18 +78,35 @@ public class Dashboard extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_search) {
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragholder,new BookIssuedFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        } else if (id==R.id.nav_checkin){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragholder,new CheckinFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if (id==R.id.nav_checkout){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragholder,new checkoutFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if (id==R.id.nav_books){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragholder,new BookIssuedFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if (id==R.id.nav_fine){
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragholder,new FinePayedFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        }else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Download SmartLib app now and manage library digitally while being cool.");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Download SmartLib app now and manage library digitally while being cool. Visit https://smartlib.nikhilkumar.ga");
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         } else if (id == R.id.nav_abt) {
