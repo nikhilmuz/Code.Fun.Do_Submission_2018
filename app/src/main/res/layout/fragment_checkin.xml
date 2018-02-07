@@ -3,12 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ga.nikhilkumar.smartlib.CheckinFragment">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RadioButton" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show this token to receptionist:"
+            android:textSize="25sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-L4lo_cPZmp20Et-jCct"
+            android:textSize="40sp"
+            android:id="@+id/token"
+            android:textColor="#FF0000"/>
+        <TextView
+            android:paddingTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="Current Status:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checked In"
+            android:textColor="#00FF00"
+            android:id="@+id/status"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Dashboard extends AppCompatActivity
@@ -76,6 +77,8 @@ public class Dashboard extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        TextView txt=findViewById(R.id.welcome);
+        txt.setText("");
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
@@ -95,7 +98,7 @@ public class Dashboard extends AppCompatActivity
             ft.commit();
         }else if (id==R.id.nav_books){
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragholder,new BookIssuedFragment());
+            ft.replace(R.id.fragholder,new BooksAvailableFragment());
             ft.addToBackStack(null);
             ft.commit();
         }else if (id==R.id.nav_fine){

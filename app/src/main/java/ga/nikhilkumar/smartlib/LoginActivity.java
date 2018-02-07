@@ -50,6 +50,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+    int a = 0;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -60,9 +61,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+   // private static final String[] DUMMY_CREDENTIALS = new String[]{
+   //         "foo@example.com:hello", "bar@example.com:world"
+   // };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -78,34 +79,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
-        ref.orderByChild("name").equalTo("Nikhil").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Users newUser = dataSnapshot.getValue(Users.class);
-                //Toast.makeText(LoginActivity.this, "Author: " + newUser.password, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LoginActivity.this, "Check Connectivity", Toast.LENGTH_SHORT).show();
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Users users = dataSnapshot.getValue(Users.class);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LoginActivity.this, "Check Connectivity", Toast.LENGTH_SHORT).show();
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -238,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 6;
     }
 
     /**
@@ -349,25 +322,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+            //authentication
+            final int[] bool = {0};
+           try{
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                final DatabaseReference users = firebaseDatabase.getReference().child("users");
+                users.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot d : dataSnapshot.getChildren()) {
+                            String email =   d.child("email").getValue(String.class);
+                            if(email.equals(mEmail)) {
+                                if((d.child("pwd").getValue(String.class)).equals(mPassword)){
+                                    bool[0] = 1;
+                                }
+                                    else {bool[0]=0;
+                                }
+                               }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(LoginActivity.this, "Error Connecting", Toast.LENGTH_SHORT).show();
+                    }
+                });
+              }catch (Exception err){}
+            return  true;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
