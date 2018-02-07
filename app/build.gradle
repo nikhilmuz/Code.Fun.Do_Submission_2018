@@ -18,7 +18,6 @@ android {
     }
     buildToolsVersion '27.0.3'
     dexOptions {
-        incremental true
     }
     productFlavors {
     }

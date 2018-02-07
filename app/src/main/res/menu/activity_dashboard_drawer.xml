@@ -6,24 +6,24 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_search"
-            android:icon="?android:attr/actionModeFindDrawable"
+            android:icon="@drawable/ic_search"
             android:title="Search" />
         <item
             android:id="@+id/nav_checkin"
-            android:icon="@drawable/com_facebook_button_like_icon_selected"
+            android:icon="@drawable/ic_checkin"
             android:title="Check In" />
         <item
             android:id="@+id/nav_checkout"
-            android:icon="@android:drawable/ic_input_delete"
+            android:icon="@drawable/ic_checkout"
             android:title="Check out" />
 
         <item
             android:id="@+id/nav_books"
-            android:icon="?android:attr/actionModePasteDrawable"
+            android:icon="@drawable/ic_book"
             android:title="Books" />
         <item
             android:id="@+id/nav_fine"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_fine"
             android:title="Fine" />
     </group>
 
@@ -35,7 +35,7 @@
                 android:title="Share" />
             <item
                 android:id="@+id/nav_abt"
-                android:icon="@android:drawable/sym_def_app_icon"
+                android:icon="@drawable/ic_about"
                 android:title="About App" />
         </menu>
     </item>

@@ -80,7 +80,7 @@ public class Dashboard extends AppCompatActivity
 
         if (id == R.id.nav_search) {
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragholder,new BookIssuedFragment());
+            ft.replace(R.id.fragholder,new SearchFragment());
             ft.addToBackStack(null);
             ft.commit();
         } else if (id==R.id.nav_checkin){
@@ -90,7 +90,7 @@ public class Dashboard extends AppCompatActivity
             ft.commit();
         }else if (id==R.id.nav_checkout){
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragholder,new checkoutFragment());
+            ft.replace(R.id.fragholder,new CheckOutFragment());
             ft.addToBackStack(null);
             ft.commit();
         }else if (id==R.id.nav_books){
