@@ -24,12 +24,13 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Smart Library"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/headername"/>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fastlibrary@android.com" />
+        android:text="fastlibrary@nikhilkumar.cf"
+        android:id="@+id/headeremail"/>
 
 </LinearLayout>

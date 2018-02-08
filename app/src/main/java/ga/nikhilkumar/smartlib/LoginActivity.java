@@ -191,9 +191,11 @@ register.setOnClickListener(new OnClickListener() {
                         String nemail = d.child("email").getValue(String.class);
                         if (nemail.equals(email)) {
                             if ((d.child("pwd").getValue(String.class)).equals(password)) {
-                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                                startActivity(intent);
                                 Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                                intent.putExtra("email", email);
+                                intent.putExtra("name", d.child("name").getValue(String.class));
+                                startActivity(intent);
                                 finish();
                             } else {
                                 showProgress(false);
@@ -201,13 +203,10 @@ register.setOnClickListener(new OnClickListener() {
                                 mPasswordView.requestFocus();
                             }
                         }
-                        else {
-                            Toast.makeText(LoginActivity.this, "No Such Account", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                            startActivity(intent);
-                            finish();
-                        };
                     }
+                    showProgress(false);
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
                 }
 
                 @Override

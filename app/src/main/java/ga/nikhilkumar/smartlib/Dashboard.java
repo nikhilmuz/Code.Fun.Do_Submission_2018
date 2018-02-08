@@ -24,6 +24,13 @@ public class Dashboard extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+        String name = intent.getStringExtra("name");
+TextView headername=(TextView) findViewById(R.id.headername);
+headername.setText(name);
+TextView headeremail=(TextView) findViewById(R.id.headeremail);
+headername.setText(email);
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

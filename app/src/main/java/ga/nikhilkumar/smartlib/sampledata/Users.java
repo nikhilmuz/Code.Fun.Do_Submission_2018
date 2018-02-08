@@ -1,5 +1,10 @@
 package ga.nikhilkumar.smartlib.sampledata;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Dell on 2/7/2018.
  */
@@ -16,4 +21,13 @@ public class Users {
             this.name=name;
             this.password=password;
         }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("email", email);
+        result.put("name", name);
+        result.put("pwd", password);
+        return result;
+    }
 }
