@@ -52,34 +52,32 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     int a = 0;
 
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-   // private static final String[] DUMMY_CREDENTIALS = new String[]{
-   //         "foo@example.com:hello", "bar@example.com:world"
-   // };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+register=(Button)findViewById(R.id.registerbtn);
+register.setOnClickListener(new OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+});
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -140,16 +138,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
-    }
 
 
     /**
@@ -158,17 +146,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -192,25 +177,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            final DatabaseReference users = firebaseDatabase.getReference().child("users");
+            users.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        String nemail = d.child("email").getValue(String.class);
+                        if (nemail.equals(email)) {
+                            if ((d.child("pwd").getValue(String.class)).equals(password)) {
+                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                                startActivity(intent);
+                                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                showProgress(false);
+                                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                                mPasswordView.requestFocus();
+                            }
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "No Such Account", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                            startActivity(intent);
+                            finish();
+                        };
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this, "Error Connecting", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 6;
     }
 
@@ -302,79 +314,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
-            //authentication
-            final int[] bool = {0};
-           try{
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                final DatabaseReference users = firebaseDatabase.getReference().child("users");
-                users.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot d : dataSnapshot.getChildren()) {
-                            String email =   d.child("email").getValue(String.class);
-                            if(email.equals(mEmail)) {
-                                if((d.child("pwd").getValue(String.class)).equals(mPassword)){
-                                    bool[0] = 1;
-                                }
-                                    else {bool[0]=0;
-                                }
-                               }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(LoginActivity.this, "Error Connecting", Toast.LENGTH_SHORT).show();
-                    }
-                });
-              }catch (Exception err){}
-            return  true;
-            }
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Intent intent = new Intent(LoginActivity.this,Dashboard.class);
-                startActivity(intent);
-                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 }
